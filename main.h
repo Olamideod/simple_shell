@@ -8,31 +8,20 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 #define MAX_ARGUMENTS 32
 
-// Tokenizer function without using strtok
-char **tokenizer(const char *input);
-
-// Execute a command
 int execute(char **input);
-
-// Built-in command handlers
-int shell_cd(char **args);
-int shell_exit(void);
-int shell_env(char **envp);
-int shell_setenv(char *args, char **envp);
-int shell_unsetenv(char *args, char **envp);
-
-// Advanced tasks functions
-ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
-char **custom_tokenizer(const char *input);
-
-
-
-// Task-specific built-in command handlers
-int shell_alias(char **args);
-int shell_variables(char **args);
-int shell_file_input(char **args);
+void execute_piped_commands(char ***commands);
+void free_tokenized_piped_commands(char ***commands);
+void free_tokenized_command(char **args);
+char ***tokenize_piped_commands(const char *input);
+char **tokenizer(const char *input);
+char *trim_whitespace(const char *str);
+void execve_command(char **args);
+void update_fd_prev(int fd_prev[2], int fd_current[2], int i);
+void close_fd_prev(int fd_prev[2]);
+void wait_for_children(int num_commands);
 
 #endif
