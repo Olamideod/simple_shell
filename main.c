@@ -1,80 +1,51 @@
 #include "shell.h"
 
-/* Handles the interrupt signal by printing a new prompt */
-void sig_handler(int sig);
+/**
+ * main - Custom Shell
+ *
+ * Return: 0 on success
+ */
 
-/* Executes a command in a child process */
-int execute(char **args, char **front);
-
-/* Entry point for the simple shell program */
-int main(int argc, char *argv[])
+int main(void)
 {
-	int ret = 0, retn;
-	int *exe_ret = &retn;
-	char *prompt = "$ ", *new_line = "\n";
+	char *buffer = NULL, *input;
+	size_t buffer_size = 1024;
+	ssize_t get;
+	char **args;
+	char ***commands;
 
-	name = argv[0];
-	hist = 1;
-	aliases = NULL;
-	signal(SIGINT, sig_handler);
-
-	*exe_ret = 0;
-	environ = _copyenv();
-	if (!environ)
-		exit(-100);
-
-	/* Check for command-line arguments */
-	if (argc != 1)
-	{
-		ret = proc_file_commands(argv[1], exe_ret);
-		free_env();
-		free_alias_list(aliases);
-		return (*exe_ret);
-	}
-
-	/* Check if input is not from a terminal */
-	if (!isatty(STDIN_FILENO))
-	{
-		while (ret != END_OF_FILE && ret != EXIT)
-			ret = handle_args(exe_ret);
-		free_env();
-		free_alias_list(aliases);
-		return (*exe_ret);
-	}
-
-	/* Interactive shell loop */
 	while (1)
 	{
-		write(STDOUT_FILENO, prompt, 2);
-		ret = handle_args(exe_ret);
-		if (ret == END_OF_FILE || ret == EXIT)
+		write(1, "Tim and OLa Shell$ ", 19);
+		get = getline(&buffer, &buffer_size, stdin);
+		if (get == -1)
 		{
-			if (ret == END_OF_FILE)
-				write(STDOUT_FILENO, new_line, 1);
-			free_env();
-			free_alias_list(aliases);
-			exit(*exe_ret);
+			if (feof(stdin))
+			{
+				write(1, "\n", 1);
+				break;
+			}
+			perror("getline error");
+			free(buffer);
+			return (1);
+		}
+		if (buffer[get - 1] == '\n')
+			buffer[get - 1] = '\0';
+		input = buffer;
+		if (strcmp(buffer, "exit") == 0)
+			break;
+		if (strchr(input, '|') != NULL)
+		{
+			commands = tokenize_piped_commands(input);
+			execute_piped_commands(commands);
+			free_tokenized_piped_commands(commands);
+		} else
+		{
+			args = tokenizer(input);
+			execute(args);
+			free(args);
 		}
 	}
-
-	free_env();
-	free_alias_list(aliases);
-	return (*exe_ret);
+	free(buffer);
+	return (0);
 }
-
-/* Handles the interrupt signal by printing a new prompt */
-void sig_handler(int sig)
-{
-	char *new_prompt = "\n$ ";
-
-	(void)sig;
-	signal(SIGINT, sig_handler);
-	write(STDIN_FILENO, new_prompt, 3);
-}
-
-/* Executes a command in a child process */
-int execute(char **args, char **front)
-{
-	/* ... (rest of the function) ... */
-}
-
