@@ -1,49 +1,37 @@
-#include "shell.h"
+#ifndef SHELL_H
+#define SHELL_H
 
-/**
- * main - Simple shell command line interpreter
- *
- * Return: Always 0.
- */
-int main(void)
-{
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <stdbool.h>
 
-    while (1)
-    {
-        printf("#cisfun$ "); // Display the prompt
+#define MAX_ARGUMENTS 32
 
-        // Read user input
-        read = getline(&line, &len, stdin);
-        if (read == -1)
-        {
-            if (feof(stdin)) // Check for EOF (Ctrl+D)
-            {
-                printf("\n");
-                break;
-            }
-            perror("getline error");
-            exit(EXIT_FAILURE);
-        }
+/* Tokenizer function without using strtok */
+char **tokenizer(const char *input);
 
-        // Remove newline character from input
-        line[strcspn(line, "\n")] = '\0';
+/* Execute a command */
+int execute(char **input);
 
-        // Tokenize the input
-        char **args = tokenizer(line);
+/* Built-in command handlers */
+int shell_cd(char **args);
+int shell_exit(void);
+int shell_env(char **envp);
+int shell_setenv(char *args, char **envp);
+int shell_unsetenv(char *args, char **envp);
 
-        // Execute the command
-        execute(args);
+/* Advanced tasks functions */
+ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
+char **custom_tokenizer(const char *input);
 
-        // Free allocated memory
-        free_tokenized_command(args);
-    }
+/* Task-specific built-in command handlers */
+int shell_alias(char **args);
+int shell_variables(char **args);
+int shell_file_input(char **args);
 
-    // Free allocated memory
-    free(line);
-
-    return 0;
-}
+#endif
 
