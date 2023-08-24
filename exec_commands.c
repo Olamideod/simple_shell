@@ -8,11 +8,9 @@
 
 void execve_command(char **args)
 {
-	char **envp = {NULL};
-
-	execve(args[0], args, envp);
+	execve(args[0], args, NULL);
 	perror("execve error");
-	exit(EXIT_FAILURE);
+	_exit(EXIT_FAILURE);
 }
 
 /**
@@ -83,7 +81,7 @@ void execute_piped_commands(char ***commands)
 		if (pipe(fd_current) == -1)
 		{
 			perror("pipe error");
-			exit(EXIT_FAILURE);
+			_exit(EXIT_FAILURE);
 		}
 		pid = fork();
 		if (pid == 0)
@@ -104,7 +102,7 @@ void execute_piped_commands(char ***commands)
 		} else if (pid < 0)
 		{
 			perror("fork error");
-			exit(EXIT_FAILURE);
+			_exit(EXIT_FAILURE);
 		} else
 			update_fd_prev(fd_prev, fd_current, i);
 	}

@@ -27,7 +27,7 @@ int main(void)
 			}
 			perror("getline error");
 			free(buffer);
-			return (1);
+			_exit(1);
 		}
 		if (buffer[get - 1] == '\n')
 			buffer[get - 1] = '\0';
