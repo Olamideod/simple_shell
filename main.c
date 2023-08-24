@@ -8,7 +8,7 @@
 
 int main(void)
 {
-	char *buffer = NULL, *input;
+	char *buffer = NULL, *pipe_symbol;
 	size_t buffer_size = 1024;
 	ssize_t get;
 	char **args;
@@ -31,17 +31,16 @@ int main(void)
 		}
 		if (buffer[get - 1] == '\n')
 			buffer[get - 1] = '\0';
-		input = buffer;
-		if (strcmp(buffer, "exit") == 0)
-			break;
-		if (strchr(input, '|') != NULL)
+		pipe_symbol = strchr(buffer, '|');
+		if (pipe_symbol != NULL)
 		{
-			commands = tokenize_piped_commands(input);
+			commands = tokenize_piped_commands(buffer);
 			execute_piped_commands(commands);
 			free_tokenized_piped_commands(commands);
-		} else
+		}
+		else
 		{
-			args = tokenizer(input);
+			args = tokenizer(buffer);
 			execute(args);
 			free(args);
 		}
