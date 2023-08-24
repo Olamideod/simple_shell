@@ -1,48 +1,59 @@
 #include "shell.h"
 
 /**
- * main - Custom Shell
+ * main - Entry point for the simple shell program.
  *
- * Return: 0 on success
+ * Return: Always 0.
  */
-
 int main(void)
 {
-	char *buffer = NULL;
-	size_t buffer_size = 1024;
-	ssize_t get;
-	char *input;
-	char **args;
-	char ***commands;
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t nread;
 
-	while (1)
-	{
-		write(1, "Tim and OLa Shell$ ", 19);
-		get = getline(&buffer, &buffer_size, stdin);
-		if (get == -1)
-		{
-			perror("getline error");
-			free(buffer);
-			return (1);
-		}
-		if (buffer[get - 1] == '\n')
-			buffer[get - 1] = '\0';
-		input = buffer;
-		if (strcmp(buffer, "exit") == 0)
-			break;
-		if (strchr(input, '|') != NULL)
-		{
-			commands = tokenize_piped_commands(input);
-			execute_piped_commands(commands);
-			free_tokenized_piped_commands(commands);
-		}
-		else
-		{
-			args = tokenizer(input);
-			execute(args);
-			free(args);
-		}
-	}
-	free(buffer);
-	return (0);
+    while (1)
+    {
+        /* Display shell prompt */
+        printf("$ ");
+        /* Read user input */
+        nread = custom_getline(&line, &len, stdin);
+
+        if (nread == -1)
+        {
+            perror("getline error");
+            break;
+        }
+        if (nread == 1)
+            continue; /* Skip empty line */
+
+        line[nread - 1] = '\0'; /* Remove newline character */
+
+        /* Tokenize input */
+        char **args = custom_tokenizer(line);
+        if (args == NULL)
+        {
+            fprintf(stderr, "Tokenizer error\n");
+            free(line);
+            continue;
+        }
+
+        /* Execute command */
+        int exit_status = execute(args);
+
+        /* Free memory */
+        free(line);
+        for (int i = 0; args[i] != NULL; i++)
+            free(args[i]);
+        free(args);
+
+        if (exit_status == -1)
+        {
+            perror("Execution error");
+            break;
+        }
+    }
+
+    free(line);
+
+    return 0;
 }
