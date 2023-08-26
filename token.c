@@ -28,22 +28,22 @@ char **strtow(char *str, char *d)
 		return (0);
 	for (i = 0, j = 0; j < numwords; j++)
 	{
-	    while (str[i] == d[0])
-		    i++;
-	    k = 0;
-	    while (str[i + k] != d[0] && str[i + k] != '\0')
-		    k++;
-	    s[j] = malloc((k + 1) * sizeof(char));
-	    if (!s[j])
-	    {
-		    for (k = 0; k < j; k++)
-			    free(s[k]);
-		    free(s);
-		    return (0);
-	    }
-	    for (m = 0; m < k; m++)
-		    s[j][m] = str[i++];
-	    s[j][m] = '\0';
+		while (str[i] == d[0])
+			i++;
+		k = 0;
+		while (str[i + k] != d[0] && str[i + k] != '\0')
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
+		{
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
+			return (0);
+		}
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = '\0';
 	}
 	s[j] = NULL;
 	return (s);
