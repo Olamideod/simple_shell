@@ -43,7 +43,7 @@ char *_strcpy(char *dest, char *src)
 		index++;
 	}
 	dest[index] = '\0';
-	return dest;
+	return (dest);
 }
 
 /**
@@ -67,5 +67,5 @@ char *_strdup(const char *str)
 		return (0);
 	for (int i = 0; i <= length; i++)
 		result[i] = str[i];
-	return result;
+	return (result);
 }
