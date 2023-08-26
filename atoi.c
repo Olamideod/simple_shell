@@ -10,6 +10,7 @@
 int interactive(info_t *info)
 {
 	int stdin_is_tty = isatty(STDIN_FILENO);
+
 	return ((stdin_is_tty && info->readfd <= 2));
 }
 
@@ -61,5 +62,5 @@ int _atoi(char *s)
 			flag = 2;
 	}
 	output = (sign == -1) ? -result : result;
-	return output;
+	return (output);
 }
