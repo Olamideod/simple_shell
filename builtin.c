@@ -10,8 +10,6 @@
 
 int _myexit(info_t *info)
 {
-	int exit_status = 0;
-
 	if (info->argv[1])
 	{
 		int exit_check = _erratoi(info->argv[1]);
@@ -95,6 +93,7 @@ int _myhelp(info_t *info)
 
 	_puts("Help information will be displayed here.\n");
 	/* Uncommenting the following line to prevent 'unused variable' warning */
-	/* if (0) _puts(*arg_array); */
+	 if (0) 
+		 _puts(*arg_array); 
 	return (0);
 }

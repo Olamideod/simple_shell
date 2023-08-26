@@ -55,7 +55,7 @@ char *_strcpy(char *dest, char *src)
 
 char *_strdup(const char *str)
 {
-	int length = 0;
+	int length = 0, i;
 	char *result;
 
 	if (str == NULL)
@@ -65,7 +65,7 @@ char *_strdup(const char *str)
 	result = malloc(sizeof(char) * (length + 1));
 	if (!result)
 		return (0);
-	for (int i = 0; i <= length; i++)
+	for (i = 0; i <= length; i++)
 		result[i] = str[i];
 	return (result);
 }
