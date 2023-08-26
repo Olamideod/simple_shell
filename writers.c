@@ -9,14 +9,14 @@
 
 void _puts(char *str)
 {
-	int index = 0;
+	int indi = 0;
 
 	if (!str)
 		return;
-	while (str[index] != '\0')
+	while (str[indi] != '\0')
 	{
 		_putchar(str[index]);
-		index++;
+		indi++;
 	}
 
 }
