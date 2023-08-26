@@ -8,7 +8,7 @@
  */
 char **get_environ(info_t *info)
 {
-	f (info->environ == NULL || info->env_changed)
+	if (info->environ == NULL || info->env_changed)
 	{
 		info->environ = list_to_strings(info->env);
 		info->env_changed = 0;
