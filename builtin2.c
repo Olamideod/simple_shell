@@ -101,7 +101,7 @@ int _myalias(info_t *info)
 			print_alias(node);
 			node = node->next;
 		}
-		return 0;
+		return (0);
 	}
 	for (i = 1; info->argv[i]; i++)
 	{
