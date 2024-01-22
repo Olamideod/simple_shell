@@ -1,4 +1,4 @@
-hellex** - Simple Shell :shell:
+# **Shellex** - Simple Shell :shell:
 
 A simple UNIX command interpreter written as part of the low-level programming and algorithm track at ALX.
 
@@ -283,7 +283,7 @@ $
 
 ## Authors :black_nib:
 
-* **olamide_codex** **||** [Github](https://github.com/Olamideod) **|** [email](oluwamusiwaolamide@gmail.com)  
+* **olamide_codex** **||** [Github](https://github.com/Olamideod) **|** [Twitter](https://twitter.com/OOluwamusi75869) **|** [email](oluwamusiwaolamide@gmail.com) **|** [LinkedIn](https://www.linkedin.com/in/olamide-oluwamusiwa-17b62827a/) 
 * **Meleki Timothy** **||** [Github](https://github.com/mega-mind01) 
 
 ## Acknowledgements :pray:
